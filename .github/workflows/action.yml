@@ -1,0 +1,17 @@
+name: CI
+on: [push]
+jobs:
+  Windows:
+    runs-on: windows-2019
+    timeout-minutes: 60
+    strategy:
+      matrix:
+        branch: ["master"]
+        ts: ["nts", "zts"]
+    steps:
+      - name: Setup PHP
+        run: |
+          git clone --depth=1 --branch="${{ matrix.branch }}" "https://github.com/php/php-src.git" "D:\php-src"
+          cd "D:\php-src"
+          cmd /c buildconf.bat --force
+          cmd /c configure.bat
